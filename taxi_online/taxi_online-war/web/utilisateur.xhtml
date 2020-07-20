@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    template="./index.xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <f:view>
+
+
+            <h:form>
+                <p:panel>
+                    <center>
+                        <h1><h:outputText value="Liste des Utilisateurs"/></h1>
+                    </center>
+                    <p:dataTable value="#{controllerUser.listUtilisateur()}" var="item" rowKey="#{item.idutilisateur}" id="table" style="height: 70%;">
+                        <p:column sortBy="#{item.idutilisateur}" filterBy="#{item.idutilisateur}">
+                            <f:facet name="header">
+                                <h:outputText value="Idutilisateur"/> 
+                            </f:facet>
+                            <h:outputText value="#{item.idutilisateur}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.nom}" filterBy="#{item.nom}">
+                            <f:facet name="header">
+                                <h:outputText value="Nom"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Prenom"/>
+                            </f:facet>
+                            <h:outputText value="#{item.prenom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Numero"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numero}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Password"/>
+                            </f:facet>
+                            <h:outputText value="#{item.password}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Modifier"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-pencil"  value="Modifier" oncomplete="PF('modif_util').show();">
+                                <f:setPropertyActionListener value="#{item}" target="#{controllerUser.user}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Supprimer"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-plusthick"  value="Supprimer" oncomplete="PF('sup_util').show();">
+                                <f:setPropertyActionListener value="#{item}" target="#{controllerUser.user}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:separator/>
+                    <center>
+                        <h:panelGrid columns="1">
+                            <p:commandButton immediate="true" value="Ajouter" actionListener="#" oncomplete="PF('affiche_util').show();"/>
+                        </h:panelGrid>
+                    </center>
+                    <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size:10px;font-weight: bold; font-style: italic;" widgetVar="affiche_util" resizable="false" closable="false" showHeader="true" showEffect="fade">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11px;" value="Ajout utilisateur"/>
+                        </f:facet>
+                        <p:panel id="pan_user" style="text-align: justify;">
+                            <p:panelGrid columns="3">
+                                <p:outputLabel value="Idutilisateur:" for="idutilisateur" />
+                                <p:inputText id="idutilisateur" value="#{controllerUser.utilisateur.idutilisateur}" title="Idutilisateur" required="true" requiredMessage="The Idutilisateur field is required."/>
+                                <p:message for="idutilisateur"/>
+                                <p:outputLabel value="Nom:" for="nom" />
+                                <p:inputText id="nom" value="#{controllerUser.utilisateur.nom}" title="Nom" />
+                                <p:message for="nom"/>
+                                <p:outputLabel value="Prenom:" for="prenom" />
+                                <p:inputText id="prenom" value="#{controllerUser.utilisateur.prenom}" title="Prenom" />
+                                <p:message for="prenom"/>
+                                <p:outputLabel value="Numero:" for="numero" />
+                                <p:inputText id="numero" value="#{controllerUser.utilisateur.numero}" title="Numero" />
+                                <p:message for="numero"/>
+                                <p:outputLabel value="Password:" for="password" />
+                                <p:inputText id="password" value="#{controllerUser.utilisateur.password}" title="Password" />
+                                <p:message for="password"/>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%;text-align: center;" columns="2">
+                                    <p:commandButton process="pan_user" style="font-size: 10px; font-weight: bold;" value="Enregistrer" action="#{controllerUser.saveUser()}" update="@form"/>
+                                    <p:commandButton style="font-size: 10px; font-weight: bold;" value="Annuler" immediate="true" oncomplete="PF('affiche_util').hide();" action="#"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:panel>
+                    </p:dialog>
+
+                    <!--gestion de la modification-->
+                    <p:dialog id="dialog_modifuser" modal="true" dynamic="true" style="font-size:10px;font-weight: bold; font-style: italic;" widgetVar="modif_util" resizable="false" closable="false" showHeader="true" showEffect="fade">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11px;" value="Modifier un utilisateur"/>
+                        </f:facet>
+                        <p:panel id="pan_modifuser" style="text-align: justify;">
+                            <p:panelGrid columns="3">
+                                <p:outputLabel value="Idutilisateur:" for="idutilisateur2" />
+                                <p:inputText id="idutilisateur2" placeholder="#{controllerUser.user.idutilisateur}" value="#{controllerUser.utilisateur.idutilisateur}" title="Idutilisateur" required="true" requiredMessage="The Idutilisateur field is required."/>
+                                <p:message for="idutilisateur2"/>
+                                <p:outputLabel value="Nom:" for="nom2" />
+                                <p:inputText id="nom2" placeholder="#{controllerUser.user.nom}" value="#{controllerUser.utilisateur.nom}" title="Nom" />
+                                <p:message for="nom2"/>
+                                <p:outputLabel value="Prenom:" for="prenom2" />
+                                <p:inputText id="prenom2" placeholder="#{controllerUser.user.prenom}" value="#{controllerUser.utilisateur.prenom}" title="Prenom" />
+                                <p:message for="prenom2"/>
+                                <p:outputLabel value="Numero:" for="numero2" />
+                                <p:inputText id="numero2"  placeholder="#{controllerUser.user.numero}" value="#{controllerUser.utilisateur.numero}" title="Numero" />
+                                <p:message for="numero2"/>
+                                <p:outputLabel value="Password:" for="password2" />
+                                <p:inputText id="password2" placeholder="#{controllerUser.user.password}" value="#{controllerUser.utilisateur.password}" title="Password" />
+                                <p:message for="password2"/>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%;text-align: center;" columns="2">
+                                    <p:commandButton process="pan_modifuser" style="font-size: 10px; font-weight: bold;" value="Valider" action="#{controllerUser.modifUser()}"/>
+                                    <p:commandButton style="font-size: 10px; font-weight: bold;" value="Annuler" immediate="true" oncomplete="PF('modif_util').hide();" action="#{controllerUser.close()}"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:panel>
+                    </p:dialog>
+
+
+                    <!--gestion de la suppréssion-->
+                    <p:dialog id="dialog_supuser" modal="true" dynamic="true" style="font-size:10px;font-weight: bold; font-style: italic;" widgetVar="sup_util" resizable="false" closable="false" showHeader="true" showEffect="fade">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11px;" value="Supprimer un utilisateur"/>
+                        </f:facet>
+                        <p:panel id="pan_supuser" style="text-align: justify;">
+                            <p:outputLabel value="Voulez-vous vraiment supprimer"/><p/>
+                            <p:outputLabel value="#{controllerUser.user.nom}" style="font-size: 25px; font-weight: bold;"/><p/>
+                            <p:outputLabel value="ID utilisateur: "/>
+                            <p:outputLabel value="#{controllerUser.user.idutilisateur}" style="font-size: 25px; font-weight: bold;"/>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%;text-align: center;" columns="2">
+                                    <p:commandButton process="pan_supuser" style="font-size: 10px; font-weight: bold;" value="Valider" action="#{controllerUser.supUser()}"/>
+                                    <p:commandButton style="font-size: 10px; font-weight: bold;" value="Annuler" immediate="true" oncomplete="PF('sup_util').hide();" action="#{controllerUser.close()}"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:panel>
+                    </p:dialog>
+                </p:panel>
+            </h:form>
+
+        </f:view>
+
+    </ui:define>
+</ui:composition>

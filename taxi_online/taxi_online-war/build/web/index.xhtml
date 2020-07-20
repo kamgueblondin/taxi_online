@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="./resources/css/default.css" type="text/css" />
+        <link rel="stylesheet" href="./resources/css/cssLayout.css" type="text/css" />
+        <title>Taxi Online 1.0</title>
+    </h:head>
+
+    <h:body>
+
+        <f:view locale="fr">
+            <div id="top">
+                <center>
+                    <h:outputText value="Taxi online 1.0" style="font-size: 30px;font-weight: bold; font-style: italic;"/>
+                </center>
+            </div>
+            <h:form>
+                <p:menubar>
+                    <p:submenu label="Langues">
+                        <p:menuitem value="Français" url="#"/>
+                        <p:menuitem value="English" url="#"/>
+                    </p:submenu>
+                    <p:menuitem value="Parametres" url="#"/>
+                    <p:menuitem value="Utilisateur" action="/utilisateur.xhtml"/>
+                    <f:facet name="options">
+                        <p:inputText style="margin:1px 10px 1px 1px;" placeholder="Search"/>
+                        <p:commandButton type="button" value="Recherche" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+
+            <div>
+                <div id="left">
+                    <h:form>
+                        <p:menu style="width: 210px;height: 400px;background-color: #cc7650;font-weight: bold; font-style: italic;">
+                            <p:submenu label="Véhicules">
+                                <p:menuitem value="Taxi" action="#"/>
+                                <p:menuitem value="Personnel" action="#"/>
+                            </p:submenu>
+                            <p:submenu label="Réservation">
+                                <p:menuitem value="VIP" action="#"/>
+                                <p:menuitem value="Premium" action="#"/>
+                                <p:menuitem value="Simple" action="#"/>
+                            </p:submenu>
+                            <p:submenu label="Locations">
+                                <p:menuitem value="Options" action="#"/>
+                                <p:menuitem value="Divers" action="#"/>
+                            </p:submenu>
+                        </p:menu> 
+                    </h:form>
+                </div>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content"></ui:insert>
+            </div>
+
+            <div id="bottom">
+                <center>
+                    <h:outputText value="&copy; Copyright GL3-2019/2020   NJOMO YANICK" style="font-size: 9px;font-weight: bold;"/>
+                </center>
+            </div>
+        </f:view> 
+
+    </h:body>
+
+</html>
